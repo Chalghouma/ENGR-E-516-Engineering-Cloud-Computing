@@ -55,7 +55,7 @@ namespace Memcached.Mimic.FileHandler
                     {
                         found = true;
                         string newLine = keyName + " " + keyValue;
-                        builder.Append(newLine);
+                        builder.AppendLine(newLine);
                     }
                     else
                     {
@@ -64,7 +64,7 @@ namespace Memcached.Mimic.FileHandler
 
                 }
                 if (!found)
-                    builder.Append(keyName + " " + keyValue);
+                    builder.AppendLine(keyName + " " + keyValue);
                 File.WriteAllText(_filePath, builder.ToString());
             }
             return true;
