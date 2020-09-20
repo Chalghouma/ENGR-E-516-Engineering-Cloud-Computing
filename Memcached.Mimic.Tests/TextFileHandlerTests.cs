@@ -10,8 +10,7 @@ namespace Memcached.Mimic.Tests
     [TestClass]
     public class TextFileHandlerTests
     {
-        const string FilePath = @"C:\Users\cheri\OneDrive\Documents\MSDS"
-            + @"\Engineering Cloud Computing\Assignements\Memcached.Mimic\Memcached.Mimic.Tests\DB.txt";
+        const string FilePath = @"Test.DB.txt";
         [TestMethod]
         public void CheckFileExists()
         {
@@ -46,6 +45,8 @@ namespace Memcached.Mimic.Tests
             for (int i = 0; i < count; i++)
             {
                 Assert.IsTrue(handler.SetKey($"Key{i}", $"Value{i}"));
+                //We check twice, right after an insertion is made, and when all the set is done
+                Assert.AreEqual($"Value{i}", handler.GetKeyValue($"Key{i}"));
             }
             for (int i = 0; i < count; i++)
             {
