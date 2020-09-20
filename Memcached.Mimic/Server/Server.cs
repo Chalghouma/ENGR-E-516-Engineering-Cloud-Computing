@@ -12,6 +12,7 @@ namespace Memcached.Mimic.Server
         private Thread _listenerGeneratorThread;
         private int _portNumber;
         private string _ipAddress;
+        
         public Server(string ipAddress, int portNumber)
         {
             _ipAddress = ipAddress;
@@ -39,7 +40,7 @@ namespace Memcached.Mimic.Server
         }
         private void OnNewClientAccepted(Object newTcpClient)
         {
-
+            new ClientConnection(newTcpClient as TcpClient);
         }
     }
 }
