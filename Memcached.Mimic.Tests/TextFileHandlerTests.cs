@@ -38,7 +38,7 @@ namespace Memcached.Mimic.Tests
             Assert.IsTrue(handler.SetKey("SomeKey", "SomeValue"));
         }
         [TestMethod]
-        public void StoreGet10Keys()
+        public void StoreGet10KeysThenDeleteOne()
         {
             Cleanup();
             var handler = new TextFileHandler(FilePath);
@@ -56,6 +56,9 @@ namespace Memcached.Mimic.Tests
                 Assert.IsTrue(handler.GetKeyValue($"Key{i}", out keyValue));
                 Assert.AreEqual($"Value{i}", keyValue);
             }
+
+            handler.DeleteKey("Key7");
+            Assert.IsFalse(handler.GetKeyValue("Key7", out keyValue));
         }
     }
 }

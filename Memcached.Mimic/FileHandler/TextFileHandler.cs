@@ -73,5 +73,30 @@ namespace Memcached.Mimic.FileHandler
             }
             return true;
         }
+
+        public bool DeleteKey(string keyName)
+        {
+            bool found = false;
+            lock (fileLock)
+            {
+                StringBuilder builder = new StringBuilder();
+                foreach (var line in File.ReadAllLines(_filePath))
+                {
+                    string[] splitted = line.Split(' ');
+                    if (splitted[0] == keyName)
+                    {
+                        found = true;
+                    }
+                    else
+                    {
+                        builder.AppendLine(line);
+                    }
+
+                }
+
+                File.WriteAllText(_filePath, builder.ToString());
+            }
+            return found;
+        }
     }
 }

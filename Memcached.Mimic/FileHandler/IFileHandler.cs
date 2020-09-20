@@ -8,5 +8,6 @@ namespace Memcached.Mimic.FileHandler
     {
         bool GetKeyValue(string keyName,out string keyValue);
         bool SetKey(string keyName, string keyValue);
+        bool DeleteKey(string keyName);
     }
 }
