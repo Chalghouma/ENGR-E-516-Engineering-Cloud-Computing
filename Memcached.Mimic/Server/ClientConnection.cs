@@ -13,11 +13,13 @@ namespace Memcached.Mimic.Server
     {
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
+        private Func<ICommand, ExecutionResult> _onCommandRequested;
 
-        public ClientConnection(TcpClient tcpClient)
+        public ClientConnection(TcpClient tcpClient, Func<ICommand, ExecutionResult> onCommandRequested)
         {
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
+            _onCommandRequested = onCommandRequested;
 
             StateObject state = new StateObject();
             state.workSocket = _tcpClient.Client;
@@ -84,8 +86,12 @@ namespace Memcached.Mimic.Server
             if (receivedCommand == null) Console.WriteLine("Received Command is null");
             Console.WriteLine($"[Client.Command]: {receivedCommand?.GetStringForEncoding()}");
             string serverResponse = $"Server has received your message: {clientContent}";
-            _networkStream.Write(Encoding.ASCII.GetBytes(serverResponse), 0, serverResponse.Length);
-            _networkStream.FlushAsync();
+            ExecutionResult executionResult = this._onCommandRequested(receivedCommand);
+            foreach (var result in executionResult.Results)
+            {
+                _networkStream.Write(Encoding.ASCII.GetBytes(result), 0, result.Length);
+                _networkStream.FlushAsync();
+            }
         }
     }
 }

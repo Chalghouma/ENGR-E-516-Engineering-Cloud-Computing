@@ -30,18 +30,18 @@ namespace Memcached.Mimic.Client
         }
         private void WaitForUserInput(NetworkStream stream)
         {
-            Console.WriteLine("Insert your command");
             while (true)
             {
+                Console.WriteLine("Insert your command");
                 string input = Console.ReadLine();
-                ICommand command = CommandParser.ParseFromUserInput(input,true);
-                if (command != null && command is GetCommand)
+                ICommand command = CommandParser.ParseFromUserInput(input, true);
+                if (command == null) Console.WriteLine("Couldn't parse your request");
+                else
                 {
                     string commandStringData = command.GetStringForEncoding();
                     stream.Write(Encoding.ASCII.GetBytes(commandStringData), 0, commandStringData.Length);
                     stream.Flush();
                 }
-
             }
         }
 

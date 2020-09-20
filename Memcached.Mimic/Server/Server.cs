@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Memcached.Mimic.Commands;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -12,11 +13,12 @@ namespace Memcached.Mimic.Server
         private Thread _listenerGeneratorThread;
         private int _portNumber;
         private string _ipAddress;
-        
+        private ICommandExecuter _commandExecuter;
         public Server(string ipAddress, int portNumber)
         {
             _ipAddress = ipAddress;
             _portNumber = portNumber;
+            _commandExecuter = new CommandExecuter();
         }
         public void Start()
         {
@@ -34,13 +36,23 @@ namespace Memcached.Mimic.Server
             {
                 Thread clientConnectionThread = new Thread(new ParameterizedThreadStart(OnNewClientAccepted));
                 TcpClient tcpClient = tcpServer.AcceptTcpClient();
-                clientConnectionThread.Start(tcpClient);
+                clientConnectionThread.Start(new ClientConnectionSetup
+                {
+                    TcpClient=tcpClient,
+                    OnCommandRequested=this._commandExecuter.ExecuteCommand
+                });
 
             }
         }
-        private void OnNewClientAccepted(Object newTcpClient)
+        private void OnNewClientAccepted(Object param)
         {
-            new ClientConnection(newTcpClient as TcpClient);
+            ClientConnectionSetup clientConnectionSetup = param as ClientConnectionSetup;
+            new ClientConnection(clientConnectionSetup.TcpClient, clientConnectionSetup.OnCommandRequested);
         }
+    }
+    public class ClientConnectionSetup
+    {
+        public TcpClient TcpClient { get; set; }
+        public Func<ICommand, ExecutionResult> OnCommandRequested { get; set; }
     }
 }
