@@ -11,5 +11,10 @@ namespace Memcached.Mimic.Commands
         {
             Key = key;
         }
+
+        public string GetStringForEncoding()
+        {
+            return $"get {Key}";
+        }
     }
 }

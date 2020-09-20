@@ -7,7 +7,7 @@ namespace Server
         static void Main(string[] args)
         {
 
-            //new Memcached.Mimic.Server.Server("127.0.0.1",10001).ListenForClients();
+            new Memcached.Mimic.Server.Server("127.0.0.1", 10001).ListenForClients();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace Memcached.Mimic.Commands
 {
     public interface ICommand
     {
+        string GetStringForEncoding();
     }
 }

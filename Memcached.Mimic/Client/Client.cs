@@ -1,4 +1,6 @@
-﻿using Memcached.Mimic.Common;
+﻿using Memcached.Mimic.Commands;
+using Memcached.Mimic.Common;
+using Memcached.Mimic.Parser;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -32,9 +34,14 @@ namespace Memcached.Mimic.Client
             while (true)
             {
                 string input = Console.ReadLine();
+                ICommand command = CommandParser.Parse(input);
+                if (command != null && command is GetCommand)
+                {
+                    string commandStringData = command.GetStringForEncoding();
+                    stream.Write(Encoding.ASCII.GetBytes(commandStringData), 0, commandStringData.Length);
+                    stream.Flush();
+                }
 
-                stream.Write(Encoding.ASCII.GetBytes(input), 0, input.Length);
-                stream.Flush();
             }
         }
 
