@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.Mimic", "Memcached.Mimic\Memcached.Mimic.csproj", "{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
