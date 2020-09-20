@@ -14,5 +14,6 @@ namespace Memcached.Mimic.Commands
         ExecutionResult ExecuteCommand(ICommand command);
         ExecutionResult ExecuteGetCommand(GetCommand command);
         ExecutionResult ExecuteSetCommand(SetCommand command);
+        ExecutionResult ExecuteDeleteCommand(DeleteCommand command);
     }
 }

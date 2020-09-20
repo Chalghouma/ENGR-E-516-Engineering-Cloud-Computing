@@ -21,6 +21,8 @@ namespace Memcached.Mimic.Commands
                     return ExecuteGetCommand(command as GetCommand);
                 else if (command is SetCommand)
                     return ExecuteSetCommand(command as SetCommand);
+                else if (command is DeleteCommand)
+                    return ExecuteDeleteCommand(command as DeleteCommand);
                 else
                     return new ExecutionResult
                     {
@@ -43,16 +45,32 @@ namespace Memcached.Mimic.Commands
             }
         }
 
+        public ExecutionResult ExecuteDeleteCommand(DeleteCommand command)
+        {
+            bool result = _fileHandler.DeleteKey(command.Key);
+            return new ExecutionResult
+            {
+                IsSuccess = true,
+                Results = new string[]
+                {
+                    result ? "DELETED" : "NOT FOUND"
+                }
+            };
+        }
+
         public ExecutionResult ExecuteGetCommand(GetCommand command)
         {
             string keyValue = "";
             bool result = _fileHandler.GetKeyValue(command.Key, out keyValue);
-            int length = result ?  keyValue.Length : 0 ;
+            int length = result ? keyValue.Length : 0;
             return new ExecutionResult
             {
                 IsSuccess = true,
-                Results = new string[] { $"VALUE {command.Key} {length}",
-                    keyValue }
+                Results = new string[] {
+                    $"VALUE {command.Key} {length}\n",
+                    keyValue+"\n",
+                    "END"
+                }
             };
         }
 
