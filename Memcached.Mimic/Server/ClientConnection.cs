@@ -1,4 +1,6 @@
-﻿using Memcached.Mimic.Common;
+﻿using Memcached.Mimic.Commands;
+using Memcached.Mimic.Common;
+using Memcached.Mimic.Parser;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -78,7 +80,9 @@ namespace Memcached.Mimic.Server
         }
         private void HandleClientResponse(string clientContent)
         {
-            Console.WriteLine($"[Client]: {clientContent}");
+            ICommand receivedCommand = CommandParser.ParseFromSentData(clientContent);
+            if (receivedCommand == null) Console.WriteLine("Received Command is null");
+            Console.WriteLine($"[Client.Command]: {receivedCommand?.GetStringForEncoding()}");
             string serverResponse = $"Server has received your message: {clientContent}";
             _networkStream.Write(Encoding.ASCII.GetBytes(serverResponse), 0, serverResponse.Length);
             _networkStream.FlushAsync();

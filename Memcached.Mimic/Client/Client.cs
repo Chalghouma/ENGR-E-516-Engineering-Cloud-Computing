@@ -34,7 +34,7 @@ namespace Memcached.Mimic.Client
             while (true)
             {
                 string input = Console.ReadLine();
-                ICommand command = CommandParser.Parse(input);
+                ICommand command = CommandParser.ParseFromUserInput(input,true);
                 if (command != null && command is GetCommand)
                 {
                     string commandStringData = command.GetStringForEncoding();
