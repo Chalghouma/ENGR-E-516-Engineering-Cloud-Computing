@@ -12,6 +12,8 @@ namespace Memcached.Mimic.Parser
             string trimmed = sentData.Trim();
             if (trimmed.StartsWith("get"))
                 return GetCommandFromInput(trimmed.Remove(0, "get".Length));
+            if (trimmed.StartsWith("delete"))
+                return DeleteCommandFromInput(trimmed.Remove(0, "delete".Length));
             else if (trimmed.StartsWith("set"))
                 return SetCommandFromSentData(trimmed.Remove(0, "set".Length));
 
@@ -23,6 +25,8 @@ namespace Memcached.Mimic.Parser
             string trimmed = userInput.Trim();
             if (trimmed.StartsWith("get"))
                 return GetCommandFromInput(trimmed.Remove(0, "get".Length));
+            if (trimmed.StartsWith("delete"))
+                return DeleteCommandFromInput(trimmed.Remove(0, "delete".Length));
             else if (trimmed.StartsWith("set"))
                 return SetCommandFromInput(trimmed.Remove(0, "set".Length),
                     requireUserInput ? Console.ReadLine() : additionalUserInput);
@@ -30,6 +34,10 @@ namespace Memcached.Mimic.Parser
             return null;
         }
 
+        private static ICommand DeleteCommandFromInput(string headLess)
+        {
+            return new DeleteCommand(headLess.Trim());
+        }
 
         private static ICommand GetCommandFromInput(string headLess)
         {

@@ -28,9 +28,9 @@ namespace Memcached.Mimic.Tests
             Assert.AreEqual("otherKey", command.Key);
             command = CommandParser.ParseFromSentData("      gget other Key") as GetCommand;
             Assert.AreEqual(command, null);
-
-
         }
+
+
         [TestMethod]
         public void SetCommandParses_UserInput()
         {
@@ -48,6 +48,30 @@ namespace Memcached.Mimic.Tests
             Assert.AreEqual("someKeyValue", command.Value);
 
 
+        }
+
+
+        [TestMethod]
+        public void DeleteCommandParses_UserInput()
+        {
+            DeleteCommand command = CommandParser.ParseFromUserInput("      delete a", false) as DeleteCommand;
+            Assert.AreEqual("a", command.Key);
+
+            command = CommandParser.ParseFromUserInput("      delete otherKey", false) as DeleteCommand;
+            Assert.AreEqual("otherKey", command.Key);
+
+            command = CommandParser.ParseFromUserInput("      ddelete other___Key", false) as DeleteCommand;
+            Assert.AreEqual(command, null);
+        }
+        [TestMethod]
+        public void DeleteCommandParses_Sent()
+        {
+            DeleteCommand command = CommandParser.ParseFromSentData("      delete a") as DeleteCommand;
+            Assert.AreEqual("a", command.Key);
+            command = CommandParser.ParseFromSentData("      delete otherKey") as DeleteCommand;
+            Assert.AreEqual("otherKey", command.Key);
+            command = CommandParser.ParseFromSentData("      gget other Key") as DeleteCommand;
+            Assert.AreEqual(command, null);
         }
     }
 }
