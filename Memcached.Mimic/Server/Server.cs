@@ -46,6 +46,7 @@ namespace Memcached.Mimic.Server
         }
         private void OnNewClientAccepted(Object param)
         {
+            Console.WriteLine("New Incoming Connection");
             ClientConnectionSetup clientConnectionSetup = param as ClientConnectionSetup;
             new ClientConnection(clientConnectionSetup.TcpClient, clientConnectionSetup.OnCommandRequested);
         }

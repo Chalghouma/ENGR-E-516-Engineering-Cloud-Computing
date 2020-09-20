@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Memcached.Mimic.Server
 {
@@ -64,6 +65,7 @@ namespace Memcached.Mimic.Server
                     //WSAECONNRESET, the other side closed impolitely
                     if (socketException.ErrorCode == 10054 || ((socketException.ErrorCode != 10004) && (socketException.ErrorCode != 10053)))
                     {
+                        Console.WriteLine("Client Disconnected");
                         // Complete the disconnect request.
                         String remoteIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
                         String remotePort = ((IPEndPoint)handler.RemoteEndPoint).Port.ToString();
@@ -71,6 +73,8 @@ namespace Memcached.Mimic.Server
                         handler.Close();
                         handler = null;
 
+                        Console.WriteLine("Closing Socket & killing thread");
+                        Thread.CurrentThread.Interrupt();
                     }
                 }
                 catch (Exception exception)
