@@ -27,7 +27,7 @@ namespace Memcached.Mimic.FileHandler
                 }
             }
         }
-        public string GetKeyValue(string keyName)
+        public bool GetKeyValue(string keyName, out string keyValue)
         {
             lock (fileLock)
             {
@@ -35,11 +35,15 @@ namespace Memcached.Mimic.FileHandler
                 foreach (var line in lines)
                 {
                     string[] splitted = line.Split(' ');
-                    if (splitted[0] == keyName) return splitted[1];
+                    if (splitted[0] == keyName)
+                    {
+                        keyValue = splitted[1];
+                        return true;
+                    }
                 }
             }
-
-            return null;
+            keyValue = "";
+            return false;
         }
 
         public bool SetKey(string keyName, string keyValue)

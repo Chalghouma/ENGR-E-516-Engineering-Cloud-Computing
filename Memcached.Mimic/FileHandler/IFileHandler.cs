@@ -6,7 +6,7 @@ namespace Memcached.Mimic.FileHandler
 {
     public interface IFileHandler
     {
-        string GetKeyValue(string keyName);
+        bool GetKeyValue(string keyName,out string keyValue);
         bool SetKey(string keyName, string keyValue);
     }
 }

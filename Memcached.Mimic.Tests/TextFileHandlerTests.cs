@@ -27,7 +27,8 @@ namespace Memcached.Mimic.Tests
         {
             Cleanup();
             var handler = new TextFileHandler(FilePath);
-            Assert.IsNull(handler.GetKeyValue("SomeKey"));
+            string keyValue = "";
+            Assert.IsFalse(handler.GetKeyValue("SomeKey", out keyValue));
         }
         [TestMethod]
         public void CanStoreKey()
@@ -42,15 +43,18 @@ namespace Memcached.Mimic.Tests
             Cleanup();
             var handler = new TextFileHandler(FilePath);
             int count = 10;
+            string keyValue = "";
             for (int i = 0; i < count; i++)
             {
                 Assert.IsTrue(handler.SetKey($"Key{i}", $"Value{i}"));
                 //We check twice, right after an insertion is made, and when all the set is done
-                Assert.AreEqual($"Value{i}", handler.GetKeyValue($"Key{i}"));
+                Assert.IsTrue(handler.GetKeyValue($"Key{i}", out keyValue));
+                Assert.AreEqual($"Value{i}", keyValue);
             }
             for (int i = 0; i < count; i++)
             {
-                Assert.AreEqual($"Value{i}", handler.GetKeyValue($"Key{i}"));
+                Assert.IsTrue(handler.GetKeyValue($"Key{i}", out keyValue));
+                Assert.AreEqual($"Value{i}", keyValue);
             }
         }
     }
