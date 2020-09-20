@@ -46,10 +46,7 @@ namespace Memcached.Mimic.Server
                                          state.buffer, 0, bytesRead));
 
                         content = state.sb.ToString();
-
-                        string serverResponse = $"Server has received your message: ${content}";
-                        _networkStream.Write(Encoding.ASCII.GetBytes(serverResponse), 0, serverResponse.Length);
-                        _networkStream.FlushAsync();
+                        HandleClientResponse(content);
 
 
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
@@ -78,6 +75,13 @@ namespace Memcached.Mimic.Server
 
                 }
             }
+        }
+        private void HandleClientResponse(string clientContent)
+        {
+            Console.WriteLine($"[Client]: {clientContent}");
+            string serverResponse = $"Server has received your message: {clientContent}";
+            _networkStream.Write(Encoding.ASCII.GetBytes(serverResponse), 0, serverResponse.Length);
+            _networkStream.FlushAsync();
         }
     }
 }
