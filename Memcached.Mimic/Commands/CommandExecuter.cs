@@ -47,7 +47,7 @@ namespace Memcached.Mimic.Commands
         {
             string keyValue = "";
             bool result = _fileHandler.GetKeyValue(command.Key, out keyValue);
-            int length = result ? 0 : keyValue.Length;
+            int length = result ?  keyValue.Length : 0 ;
             return new ExecutionResult
             {
                 IsSuccess = true,
