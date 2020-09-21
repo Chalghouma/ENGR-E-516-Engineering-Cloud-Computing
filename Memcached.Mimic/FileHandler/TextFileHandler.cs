@@ -37,7 +37,7 @@ namespace Memcached.Mimic.FileHandler
                     string[] splitted = line.Split(' ');
                     if (splitted[0] == keyName)
                     {
-                        keyValue = splitted[1];
+                        keyValue = line.Substring(splitted[0].Length+1);
                         return true;
                     }
                 }
