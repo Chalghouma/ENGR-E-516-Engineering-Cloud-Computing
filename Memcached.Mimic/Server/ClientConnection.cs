@@ -93,9 +93,9 @@ namespace Memcached.Mimic.Server
             ExecutionResult executionResult = this._onCommandRequested(receivedCommand);
             foreach (var result in executionResult.Results)
             {
-                _networkStream.Write(Encoding.ASCII.GetBytes(result), 0, result.Length);
-                _networkStream.FlushAsync();
+                _networkStream.Write(Encoding.ASCII.GetBytes(result+"\r\n"), 0, result.Length);
             }
+            _networkStream.FlushAsync();
         }
     }
 }

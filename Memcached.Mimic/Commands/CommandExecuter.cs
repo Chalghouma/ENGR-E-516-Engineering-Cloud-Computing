@@ -27,7 +27,7 @@ namespace Memcached.Mimic.Commands
                     return new ExecutionResult
                     {
                         IsSuccess = false,
-                        Results = new string[] { "Incoming Command didn't map to any existing command\r\n", }
+                        Results = new string[] { "Incoming Command didn't map to any existing command", }
                     };
             }
             catch (Exception exp)
@@ -67,8 +67,8 @@ namespace Memcached.Mimic.Commands
             {
                 IsSuccess = true,
                 Results = new string[] {
-                    $"VALUE {command.Key} {length}\n",
-                    keyValue+"\n",
+                    $"VALUE {command.Key} {length}",
+                    keyValue,
                     "END"
                 }
             };
