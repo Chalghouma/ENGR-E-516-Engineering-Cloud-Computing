@@ -28,24 +28,40 @@ namespace Memcached.Mimic.Client
                         new AsyncCallback(OnReceive), state);
 
             _networkStream = server.GetStream();
-
             if (waitForUserInput)
                 WaitForUserInput();
         }
         private void WaitForUserInput()
         {
+            ShowMan();
             while (true)
             {
-                Console.WriteLine("Insert your command");
                 string input = Console.ReadLine();
-                ICommand command = CommandParser.ParseFromUserInput(input, true);
-                if (command == null) Console.WriteLine("Couldn't parse your request");
+                if (input == "man")
+                    ShowMan();
                 else
                 {
-                    SendCommand(command);
+                    ICommand command = CommandParser.ParseFromUserInput(input, true);
+                    if (command == null) Console.WriteLine("Couldn't parse your request");
+                    else
+                    {
+                        SendCommand(command);
+                    }
                 }
             }
         }
+
+        private void ShowMan()
+        {
+            Console.WriteLine("************************");
+            Console.WriteLine("Available Commands :");
+            Console.WriteLine(" - get <keyName>");
+            Console.WriteLine(" - set <keyName> <keySize (Required as it's parsed but doesn't really bring value)>");
+            Console.WriteLine("     - <value of key from previous set command>");
+            Console.WriteLine(" - delete <keyName>");
+            Console.WriteLine("Write man to show this manual");
+        }
+
         public void SendCommand(ICommand command)
         {
             string commandStringData = command.GetStringForEncoding();
