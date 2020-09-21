@@ -93,7 +93,8 @@ namespace Memcached.Mimic.Server
             ExecutionResult executionResult = this._onCommandRequested(receivedCommand);
             foreach (var result in executionResult.Results)
             {
-                _networkStream.Write(Encoding.ASCII.GetBytes(result+"\r\n"), 0, result.Length);
+                string output = $"[Server]: {result}\r\n";
+                _networkStream.Write(Encoding.ASCII.GetBytes(output), 0, output.Length);
             }
             _networkStream.FlushAsync();
         }

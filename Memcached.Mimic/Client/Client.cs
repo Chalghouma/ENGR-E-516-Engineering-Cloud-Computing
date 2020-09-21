@@ -92,7 +92,7 @@ namespace Memcached.Mimic.Client
                                          state.buffer, 0, bytesRead));
 
                         content = state.sb.ToString();
-                        Console.WriteLine($"[Server]: {content}");
+                        Console.Write($"{content}");
 
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                             new AsyncCallback(OnReceive), state);
