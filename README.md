@@ -59,7 +59,17 @@ For now, we have:
 - set <keyName> <bytesLength>. Which then asks for another prompt where we insert <key_value>
 - delete <keyName> (Which returns DELETED only if the key exists)
 
+#Scenario to check
+1. get key1 => Should return VALUE key1 0
+2. set key1 3 => abc => Should return STORED
+3. get key1 => VALUE key1 3 abc
+4. Repeat the set/get. You will always get the value of the last set that has been done. (Since the locking/unlocking done by the FileHandler is in FIFO)
+5. delete key1 => DELETED
+6. get key1 => Should return VALUE key1 0
 
 
+#Future Improvements
+Enhance the performance of the storage. (Rather than Going through the lines and splitting them by " " to get the values) use another approach.
+Implement more customizable fields & commands to be used, especially the stats ones
 
 
