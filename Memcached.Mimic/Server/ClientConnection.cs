@@ -91,6 +91,11 @@ namespace Memcached.Mimic.Server
             Console.WriteLine($"[Client.Command]: {receivedCommand?.GetStringForEncoding()}");
             string serverResponse = $"Server has received your message: {clientContent}";
             ExecutionResult executionResult = this._onCommandRequested(receivedCommand);
+            if(executionResult.ExecutionTimeInMS>=0)
+            {
+                string output = $"[Server]: Executed in {executionResult.ExecutionTimeInMS/1000}s\r\n";
+                _networkStream.Write(Encoding.ASCII.GetBytes(output), 0, output.Length);
+            }
             foreach (var result in executionResult.Results)
             {
                 string output = $"[Server]: {result}\r\n";
