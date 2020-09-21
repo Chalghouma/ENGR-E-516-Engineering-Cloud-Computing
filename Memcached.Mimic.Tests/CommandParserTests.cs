@@ -18,6 +18,9 @@ namespace Memcached.Mimic.Tests
 
             command = CommandParser.ParseFromUserInput("      gget other___Key", false) as GetCommand;
             Assert.AreEqual(command, null);
+
+            command = CommandParser.ParseFromUserInput("      get ", false) as GetCommand;
+            Assert.AreEqual(command, null);
         }
         [TestMethod]
         public void GetCommandParses_Sent()
