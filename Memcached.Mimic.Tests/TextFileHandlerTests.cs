@@ -38,6 +38,16 @@ namespace Memcached.Mimic.Tests
             Assert.IsTrue(handler.SetKey("SomeKey", "SomeValue"));
         }
         [TestMethod]
+        public void CanStoreKeyWithSpace()
+        {
+            Cleanup();
+            var handler = new TextFileHandler(FilePath);
+            Assert.IsTrue(handler.SetKey("SomeKey", "Some Value"));
+            string storedKey = "";
+            Assert.IsTrue(handler.GetKeyValue("SomeKey", out storedKey));
+            Assert.AreEqual("Some Value", storedKey);
+        }
+        [TestMethod]
         public void StoreGet10KeysThenDeleteOne()
         {
             Cleanup();
