@@ -8,9 +8,9 @@ namespace Memcached.Mimic.Commands
     public class CommandExecuter : ICommandExecuter
     {
         IFileHandler _fileHandler;
-        public CommandExecuter()
+        public CommandExecuter(IFileHandler fileHandler)
         {
-            _fileHandler = new TextFileHandler();
+            _fileHandler = fileHandler;
         }
 
         public ExecutionResult ExecuteCommand(ICommand command)
@@ -27,7 +27,7 @@ namespace Memcached.Mimic.Commands
                     return new ExecutionResult
                     {
                         IsSuccess = false,
-                        Results = new string[] { "Incoming Command didn't map to any existing command" }
+                        Results = new string[] { "Incoming Command didn't map to any existing command\r\n", }
                     };
             }
             catch (Exception exp)

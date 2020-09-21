@@ -1,4 +1,5 @@
 ﻿using Memcached.Mimic.Commands;
+using Memcached.Mimic.FileHandler;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,11 +15,13 @@ namespace Memcached.Mimic.Server
         private int _portNumber;
         private string _ipAddress;
         private ICommandExecuter _commandExecuter;
+        public IFileHandler FileHandler { get; private set; }
         public Server(string ipAddress, int portNumber)
         {
             _ipAddress = ipAddress;
             _portNumber = portNumber;
-            _commandExecuter = new CommandExecuter();
+            FileHandler = new TextFileHandler();
+            _commandExecuter = new CommandExecuter(FileHandler);
         }
         public void Start()
         {
@@ -32,14 +35,16 @@ namespace Memcached.Mimic.Server
             TcpListener tcpServer = new TcpListener(localAddr, _portNumber);
             tcpServer.Start();
 
+            Console.WriteLine($"Server started on port: {_portNumber}");
+
             while (true)
             {
                 Thread clientConnectionThread = new Thread(new ParameterizedThreadStart(OnNewClientAccepted));
                 TcpClient tcpClient = tcpServer.AcceptTcpClient();
                 clientConnectionThread.Start(new ClientConnectionSetup
                 {
-                    TcpClient=tcpClient,
-                    OnCommandRequested=this._commandExecuter.ExecuteCommand
+                    TcpClient = tcpClient,
+                    OnCommandRequested = this._commandExecuter.ExecuteCommand
                 });
 
             }

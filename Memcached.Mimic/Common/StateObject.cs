@@ -8,7 +8,7 @@ namespace Memcached.Mimic.Common
     public class StateObject
     {
         // Size of receive buffer.  
-        public const int BufferSize = 1024;
+        public const int BufferSize = 1024*100;
 
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];

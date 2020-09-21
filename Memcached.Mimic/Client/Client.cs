@@ -12,13 +12,14 @@ namespace Memcached.Mimic.Client
     {
         private string _ipAddress;
         private int _portNumber;
-        public Client(string ipAddress, int portNumber)
+        private NetworkStream _networkStream;
+        public Client(string ipAddress, int portNumber, bool waitForUserInput = true)
         {
             _ipAddress = ipAddress;
             _portNumber = portNumber;
 
             TcpClient server = new TcpClient(_ipAddress, _portNumber);
-            Console.WriteLine("Successfully Connected To Server");
+            Console.WriteLine($"Successfully Connected To Server on port {_portNumber}");
 
 
             StateObject state = new StateObject();
@@ -26,9 +27,12 @@ namespace Memcached.Mimic.Client
             server.Client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                         new AsyncCallback(OnReceive), state);
 
-            WaitForUserInput(server.GetStream());
+            _networkStream = server.GetStream();
+
+            if (waitForUserInput)
+                WaitForUserInput();
         }
-        private void WaitForUserInput(NetworkStream stream)
+        private void WaitForUserInput()
         {
             while (true)
             {
@@ -38,11 +42,15 @@ namespace Memcached.Mimic.Client
                 if (command == null) Console.WriteLine("Couldn't parse your request");
                 else
                 {
-                    string commandStringData = command.GetStringForEncoding();
-                    stream.Write(Encoding.ASCII.GetBytes(commandStringData), 0, commandStringData.Length);
-                    stream.Flush();
+                    SendCommand(command);
                 }
             }
+        }
+        public void SendCommand(ICommand command)
+        {
+            string commandStringData = command.GetStringForEncoding();
+            _networkStream.Write(Encoding.ASCII.GetBytes(commandStringData), 0, commandStringData.Length);
+            _networkStream.Flush();
         }
 
         public void OnReceive(IAsyncResult ar)
