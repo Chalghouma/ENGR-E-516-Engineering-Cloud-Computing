@@ -36,11 +36,15 @@ namespace Memcached.Mimic.Parser
 
         private static ICommand DeleteCommandFromInput(string headLess)
         {
+            if (string.IsNullOrEmpty(headLess.Trim()))
+                return null;
             return new DeleteCommand(headLess.Trim());
         }
 
         private static ICommand GetCommandFromInput(string headLess)
         {
+            if (string.IsNullOrEmpty(headLess.Trim()))
+                return null;
             return new GetCommand(headLess.Trim());
         }
 
