@@ -37,3 +37,29 @@ The unit tests cover essentially:
 3. The Server project that basically parses & runs the Server class from Memcached.Mimic
 4. The Client project that basically parses & runs the Client class from Memcached.Mimic. Includes further details, like the possibility of running multiple clients that set random keys & values with random lengths
 
+
+#Concurrency
+The server listens for incoming clients. <br/>
+For each new TcpClient being accepted, a new Thread is created to handle the commands sent by the corresponding client. <br/>
+The consistency relies when writing/reading on the file. For that, our handler creates an empty object as a field, and uses it
+as a lock in order to access the shared file. <br/>
+As soon as the operation is finished (whether it be a get, set or delete) (which is basically a Read, Write, Write), we release it.
+1000 active threads/clients were active, maintaining a connection with the Server.
+The Client app allows to create an N amount of automated threads in order to benchmark on your end.
+
+#Performance
+Execution time depends mainly on the size of the accumulated storage file.
+For the requests, the commands' key and value lengths can range from 1 to 2^15bytes.
+The execution time of a command ranges from 0.017s and goes up to 0.8s (can go either further if the file becomes huge)
+
+#Implemented commands
+On the client side, you can run "man" to know the params of the currently implement requests.
+For now, we have:
+- get <keyName>
+- set <keyName> <bytesLength>. Which then asks for another prompt where we insert <key_value>
+- delete <keyName> (Which returns DELETED only if the key exists)
+
+
+
+
+
