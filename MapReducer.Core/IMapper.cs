@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MapReducer.Core
 {
     interface IMapper<TInput, TOutputKey, TOutputValue>
     {
-        Dictionary<TOutputKey, TOutputValue> Map(TInput inputDataSet);
+        Task<Dictionary<TOutputKey, TOutputValue>> Map(TInput inputDataSet);
     }
 }
