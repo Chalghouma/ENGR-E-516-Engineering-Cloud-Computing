@@ -3,13 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.Mimic", "Memcached.Mimic\Memcached.Mimic.csproj", "{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memcached.Mimic", "Memcached.Mimic\Memcached.Mimic.csproj", "{08EFC89B-1208-4B53-BB1D-D3D0BCE85DAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{EE0AE2EF-F3AD-46BB-B9F4-90CE514C72BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{D0DBD8E5-00FC-4275-A4A5-F92DFFBA9C3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.Mimic.Tests", "Memcached.Mimic.Tests\Memcached.Mimic.Tests.csproj", "{A87CEAF3-9A56-4544-90AE-062EEFA78489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memcached.Mimic.Tests", "Memcached.Mimic.Tests\Memcached.Mimic.Tests.csproj", "{A87CEAF3-9A56-4544-90AE-062EEFA78489}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{22552398-2DC0-47EA-99D1-FA749143CB0F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapReducer.Core", "MapReducer.Core\MapReducer.Core.csproj", "{C03D8C8A-D36E-47EC-A37A-81ECE4C90878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +40,10 @@ Global
 		{A87CEAF3-9A56-4544-90AE-062EEFA78489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A87CEAF3-9A56-4544-90AE-062EEFA78489}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A87CEAF3-9A56-4544-90AE-062EEFA78489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C03D8C8A-D36E-47EC-A37A-81ECE4C90878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C03D8C8A-D36E-47EC-A37A-81ECE4C90878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C03D8C8A-D36E-47EC-A37A-81ECE4C90878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C03D8C8A-D36E-47EC-A37A-81ECE4C90878}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
