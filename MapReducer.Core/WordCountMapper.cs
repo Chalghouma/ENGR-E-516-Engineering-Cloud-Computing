@@ -26,15 +26,10 @@ namespace MapReducer.Core
                 try
                 {
 
-                    var client = new HttpClient();
-                    var stringContent = new StringContent(JsonConvert.SerializeObject(new
+                    return await RestClient.PostJson<Dictionary<string, int>>(new
                     {
                         inputLine = inputDataSet
-                    }), Encoding.UTF8, "application/json");
-                    var requestResult = await client.PostAsync(_azureFunctionUrl, stringContent);
-                    var serializedResponse = await requestResult.Content.ReadAsStringAsync();
-                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, int>>(serializedResponse);
-                    return deserialized;
+                    }, "http://localhost:7071/api/WordCountMapper");
                 }
                 catch (Exception exp)
                 {
