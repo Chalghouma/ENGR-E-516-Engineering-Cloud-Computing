@@ -4,8 +4,8 @@ using System.Text;
 
 namespace MapReducer.Core
 {
-    interface IReducer<TInput,KOutput>
+    interface IReducer<TKey, TValue>
     {
-        KOutput Reduce(TInput input);
+        KeyValuePair<TKey, TValue> Reduce(List<KeyValuePair<TKey, TValue>> input);
     }
 }

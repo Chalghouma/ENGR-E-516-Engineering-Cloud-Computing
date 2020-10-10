@@ -4,8 +4,8 @@ using System.Text;
 
 namespace MapReducer.Core
 {
-    interface IMapper<TInput, KOutput>
+    interface IMapper<TInput, TOutputKey, TOutputValue>
     {
-        KOutput Map(TInput inputDataSet);
+        Dictionary<TOutputKey, TOutputValue> Map(TInput inputDataSet);
     }
 }
