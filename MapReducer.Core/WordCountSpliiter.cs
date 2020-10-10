@@ -1,4 +1,5 @@
 ﻿using MapReducer.Core.Logger;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,8 +30,8 @@ namespace MapReducer.Core
 
             foreach (var pair in merged)
             {
-                var red = new WordCountReducer();
-                await red.Reduce(pair.Value);
+                var red = new WordCountReducer("http://localhost:7071/api/WordCountReducer", logger);
+                var result = await red.Reduce(pair.Value);
             }
         }
     }
