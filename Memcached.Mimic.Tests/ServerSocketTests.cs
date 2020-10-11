@@ -22,7 +22,7 @@ namespace Memcached.Mimic.Tests
             });
 
             var client = new Client.Client("127.0.0.1", 10001, false);
-            for (int i = 0; i < 16; i++)
+            for (int i = 1; i < 15; i++)
             {
                 int pow = (int)Math.Pow(2, i);
                 var key = RandomGenerator.GenerateRandomKey(pow);
