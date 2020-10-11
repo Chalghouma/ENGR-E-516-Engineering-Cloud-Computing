@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Memcached.Mimic.Commands
 {
@@ -12,9 +13,9 @@ namespace Memcached.Mimic.Commands
     }
     public interface ICommandExecuter
     {
-        ExecutionResult ExecuteCommand(ICommand command);
-        ExecutionResult ExecuteGetCommand(GetCommand command);
-        ExecutionResult ExecuteSetCommand(SetCommand command);
-        ExecutionResult ExecuteDeleteCommand(DeleteCommand command);
+        Task<ExecutionResult> ExecuteCommand(ICommand command);
+        Task<ExecutionResult> ExecuteGetCommand(GetCommand command);
+        Task<ExecutionResult> ExecuteSetCommand(SetCommand command);
+        Task<ExecutionResult> ExecuteDeleteCommand(DeleteCommand command);
     }
 }

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Memcached.Mimic.Server
 {
@@ -21,7 +22,7 @@ namespace Memcached.Mimic.Server
             _ipAddress = ipAddress;
             _portNumber = portNumber;
             FileHandler = new TextFileHandler();
-            _commandExecuter = new CommandExecuter(FileHandler);
+            _commandExecuter = new LocalFileCommandExecuter(FileHandler);
         }
         public void Start()
         {
@@ -59,6 +60,6 @@ namespace Memcached.Mimic.Server
     public class ClientConnectionSetup
     {
         public TcpClient TcpClient { get; set; }
-        public Func<ICommand, ExecutionResult> OnCommandRequested { get; set; }
+        public Func<ICommand, Task<ExecutionResult>> OnCommandRequested { get; set; }
     }
 }

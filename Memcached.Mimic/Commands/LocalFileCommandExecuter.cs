@@ -3,27 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Memcached.Mimic.Commands
 {
-    public class CommandExecuter : ICommandExecuter
+    public class LocalFileCommandExecuter : ICommandExecuter
     {
         IFileHandler _fileHandler;
-        public CommandExecuter(IFileHandler fileHandler)
+        public LocalFileCommandExecuter(IFileHandler fileHandler)
         {
             _fileHandler = fileHandler;
         }
 
-        public ExecutionResult ExecuteCommand(ICommand command)
+        public async Task<ExecutionResult> ExecuteCommand(ICommand command)
         {
             try
             {
                 if (command is GetCommand)
-                    return ExecuteGetCommand(command as GetCommand);
+                    return await ExecuteGetCommand(command as GetCommand);
                 else if (command is SetCommand)
-                    return ExecuteSetCommand(command as SetCommand);
+                    return await ExecuteSetCommand(command as SetCommand);
                 else if (command is DeleteCommand)
-                    return ExecuteDeleteCommand(command as DeleteCommand);
+                    return await ExecuteDeleteCommand(command as DeleteCommand);
                 else
                     return new ExecutionResult
                     {
@@ -49,7 +50,7 @@ namespace Memcached.Mimic.Commands
             }
         }
 
-        public ExecutionResult ExecuteDeleteCommand(DeleteCommand command)
+        public async Task<ExecutionResult> ExecuteDeleteCommand(DeleteCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -66,7 +67,7 @@ namespace Memcached.Mimic.Commands
             };
         }
 
-        public ExecutionResult ExecuteGetCommand(GetCommand command)
+        public async Task<ExecutionResult> ExecuteGetCommand(GetCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -87,7 +88,7 @@ namespace Memcached.Mimic.Commands
         }
 
 
-        public ExecutionResult ExecuteSetCommand(SetCommand command)
+        public async Task<ExecutionResult> ExecuteSetCommand(SetCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
