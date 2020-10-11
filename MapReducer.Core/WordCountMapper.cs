@@ -10,11 +10,11 @@ namespace MapReducer.Core
 {
     public class WordCountMapper : IMapper<string, List<string>>
     {
-        private string _azureFunctionUrl;
+        private string _endpoint;
         private ILogger _logger;
-        public WordCountMapper(string azureFunctionUrl, ILogger logger)
+        public WordCountMapper(string endpoint, ILogger logger)
         {
-            _azureFunctionUrl = azureFunctionUrl;
+            _endpoint = endpoint;
             _logger = logger;
         }
         public async Task<List<string>> Map(string inputDataSet)
@@ -29,7 +29,7 @@ namespace MapReducer.Core
                     return await RestClient.PostJson<List<string>>(new
                     {
                         inputLine = inputDataSet
-                    }, "http://localhost:7071/api/WordCountMapper");
+                    }, _endpoint);
                 }
                 catch (Exception exp)
                 {

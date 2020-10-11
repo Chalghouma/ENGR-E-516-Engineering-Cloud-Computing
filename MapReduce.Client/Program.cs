@@ -8,7 +8,7 @@ namespace MapReduce.Client
     {
         static void Main(string[] args)
         {
-            WordCountSpliiter.ProcessDocument("Sample.txt").Wait();
+            WordCountSpliiter.ProcessDocument("Sample.txt","http://localhost:7071/api").Wait();
             Console.WriteLine("Hello World!");
         }
     }

@@ -20,12 +20,14 @@ export const appendValueByKey = async (key: string, value: any) => {
   return storedItem;
 };
 
-export const storeValueByKey = async(key:string,value:any)=>{
-    
+export const storeValueByKey = async (key: string, value: any) => {
   const cosmosClient = getCosmosDbClient();
   const container = await getContainer(cosmosClient);
 
   const storedItem = new StoredItem(key, value);
-  const createdItem = await container.items.create<StoredItem>(storedItem);
+  const createdItem = await container.items.create<StoredItem>(
+    new StoredItem(key, [value])
+  );
+  //   const createdItem = await container.items.create<StoredItem>(storedItem);
   return createdItem.resource;
 };

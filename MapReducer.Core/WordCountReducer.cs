@@ -10,11 +10,11 @@ namespace MapReducer.Core
 {
     public class WordCountReducer : IReducer<string, string>
     {
-        private string _azureFunctionsUrl;
+        private string _endpoint;
         private ILogger _logger;
-        public WordCountReducer(string url, ILogger logger)
+        public WordCountReducer(string endpoint, ILogger logger)
         {
-            _azureFunctionsUrl = url;
+            _endpoint = endpoint;
             _logger = logger;
         }
         class Result
@@ -23,14 +23,13 @@ namespace MapReducer.Core
         }
         public async Task<string> Reduce(string inputKey)
         {
-
             Exception exceptionCaught = null;
             do
             {
-                _logger.Log($"Reducing inputKey:{inputKey}'s values from {_azureFunctionsUrl}");
+                _logger.Log($"Reducing inputKey:{inputKey}'s values from {_endpoint}");
                 try
                 {
-                    var result = (await RestClient.PostJson<Result>(new { key = inputKey }, _azureFunctionsUrl));
+                    var result = (await RestClient.PostJson<Result>(new { key = inputKey }, _endpoint));
                     return result.key;
                 }
                 catch (Exception exp)
