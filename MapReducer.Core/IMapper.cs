@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MapReducer.Core
 {
-    interface IMapper<TInput, TOutputKey, TOutputValue>
+    interface IMapper<TInput, TOutput>
     {
-        Task<Dictionary<TOutputKey, TOutputValue>> Map(TInput inputDataSet);
+        Task<TOutput> Map(TInput inputDataSet);
     }
 }

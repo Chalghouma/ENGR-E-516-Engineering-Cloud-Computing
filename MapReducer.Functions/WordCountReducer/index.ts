@@ -1,5 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { reduce, map } from "lodash";
+import { storeValueByKey } from "../Services/CosmosDb/Mutations";
+import { getItemByKey } from "../Services/CosmosDb/Queries";
 
 interface KeyValuePairInput {
   Key: string;
@@ -10,12 +12,18 @@ const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  const items = req.body as KeyValuePairInput[];
-  const occurences = map(items, (item) => item.Value);
+
+  
+  const occurences = (await getItemByKey(req.body.key)).value as number[];
   const sum = reduce(occurences, (accumulated, current) => accumulated + current);
+  
+  const key = req.body.key;
+  
+  const outputKey = key+"_REDUCER_OUTPUT";
+  const storedItem = await storeValueByKey(key+"_REDUCER_OUTPUT",sum ); 
   context.res = {
     // status: 200, /* Defaults to 200 */
-    body: { Key: items[0].Key, Value: sum },
+    body: { key:outputKey  },
   };
 };
 

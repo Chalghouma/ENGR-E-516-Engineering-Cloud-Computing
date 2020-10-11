@@ -13,25 +13,29 @@ namespace MapReducer.Core
     {
         public static async Task ProcessDocument(string documentPath)
         {
+            string baseUrl = "http://localhost:7071/api";
             ILogger logger = new ConsoleLogger();
             string[] lines = await File.ReadAllLinesAsync(documentPath);
-            var asyncMapTasks = lines.Select(line => new WordCountMapper("http://localhost:7071/api/WordCountMapper", logger).Map(line)).ToList();
+            var asyncMapTasks = lines.Select(line => new WordCountMapper($"{baseUrl}/WordCountMapper", logger).Map(line)).ToList();
             var mapTasksOutputs = await Task.WhenAll(asyncMapTasks);
-            Dictionary<string, List<KeyValuePair<string, int>>> merged = new Dictionary<string, List<KeyValuePair<string, int>>>();
+            List<string> keys = new List<string>();
             foreach (var mapTaskOutput in mapTasksOutputs)
             {
-                foreach (var pair in mapTaskOutput)
+                foreach (var key in mapTaskOutput)
                 {
-                    if (!merged.ContainsKey(pair.Key))
-                        merged[pair.Key] = new List<KeyValuePair<string, int>>();
-                    merged[pair.Key].Add(pair);
+                    keys.Add(key);
                 }
             }
+            keys = keys.Distinct().ToList();
 
-            foreach (var pair in merged)
+
+            var asyncReduceTasks = keys.Select(key => new WordCountReducer("http://localhost:7071/api/WordCountReducer", logger).Reduce(key)).ToList();
+            var reduceTasksOutputs = await Task.WhenAll(asyncReduceTasks);
+            foreach (var reduceTaskoutput in reduceTasksOutputs)
             {
-                var red = new WordCountReducer("http://localhost:7071/api/WordCountReducer", logger);
-                var result = await red.Reduce(pair.Value);
+                string url = "http://localhost:7071/api/GetValueFunction";
+                var resultValue = await RestClient.PostJson<StoredItem<int>>(new {key=reduceTaskoutput }, url);
+                Console.WriteLine(JsonConvert.SerializeObject(resultValue));
             }
         }
     }

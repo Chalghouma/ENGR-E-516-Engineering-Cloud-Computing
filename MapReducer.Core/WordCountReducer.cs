@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MapReducer.Core
 {
-    public class WordCountReducer : IReducer<string, int>
+    public class WordCountReducer : IReducer<string, string>
     {
         private string _azureFunctionsUrl;
         private ILogger _logger;
@@ -17,26 +17,31 @@ namespace MapReducer.Core
             _azureFunctionsUrl = url;
             _logger = logger;
         }
-        public async Task<KeyValuePair<string, int>> Reduce(List<KeyValuePair<string, int>> input)
+        class Result
+        {
+            public string key;
+        }
+        public async Task<string> Reduce(string inputKey)
         {
 
             Exception exceptionCaught = null;
             do
             {
-                _logger.Log($"Mapping {JsonConvert.SerializeObject(input)}");
+                _logger.Log($"Reducing inputKey:{inputKey}'s values from {_azureFunctionsUrl}");
                 try
                 {
-                    return await RestClient.PostJson<KeyValuePair<string, int>>(input, _azureFunctionsUrl);
+                    var result = (await RestClient.PostJson<Result>(new { key = inputKey }, _azureFunctionsUrl));
+                    return result.key;
                 }
                 catch (Exception exp)
                 {
                     exceptionCaught = exp;
-                    _logger.Log($"Exception Caught while Mapping {JsonConvert.SerializeObject(input)}. Message: {exp.Message}");
+                    _logger.Log($"Exception Caught while reducing {inputKey}. Message: {exp.Message}");
                 }
             }
             while (exceptionCaught != null);
-            
-            return new KeyValuePair<string, int>();
+
+            return null;
         }
     }
 }

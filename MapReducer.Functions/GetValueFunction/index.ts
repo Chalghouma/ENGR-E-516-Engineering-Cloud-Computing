@@ -10,7 +10,6 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   const cosmosClient = getCosmosDbClient();
   const container = await getContainer(cosmosClient);
-
   let storedItem = await getStoredItemByKey(req.body.key, container);
   context.res = {
     body: storedItem as StoredItem,

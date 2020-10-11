@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MapReducer.Core
 {
-    interface IReducer<TKey, TValue>
+    interface IReducer<TInputKey, TOutput>
     {
-        Task<KeyValuePair<TKey, TValue>> Reduce(List<KeyValuePair<TKey, TValue>> input);
+        Task<TOutput> Reduce(TInputKey inputKey);
     }
 }

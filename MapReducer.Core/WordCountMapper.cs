@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MapReducer.Core
 {
-    public class WordCountMapper : IMapper<string, string, int>
+    public class WordCountMapper : IMapper<string, List<string>>
     {
         private string _azureFunctionUrl;
         private ILogger _logger;
@@ -17,7 +17,7 @@ namespace MapReducer.Core
             _azureFunctionUrl = azureFunctionUrl;
             _logger = logger;
         }
-        public async Task<Dictionary<string, int>> Map(string inputDataSet)
+        public async Task<List<string>> Map(string inputDataSet)
         {
             Exception exceptionCaught = null;
             do
@@ -26,7 +26,7 @@ namespace MapReducer.Core
                 try
                 {
 
-                    return await RestClient.PostJson<Dictionary<string, int>>(new
+                    return await RestClient.PostJson<List<string>>(new
                     {
                         inputLine = inputDataSet
                     }, "http://localhost:7071/api/WordCountMapper");
