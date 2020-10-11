@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Memcached.Mimic.Commands
 {
-    public class LocalFileCommandExecuter : ICommandExecuter
+    public class LocalFileCommandExecuter<T> : ICommandExecuter<string[]>
     {
         IFileHandler _fileHandler;
         public LocalFileCommandExecuter(IFileHandler fileHandler)
@@ -15,7 +15,7 @@ namespace Memcached.Mimic.Commands
             _fileHandler = fileHandler;
         }
 
-        public async Task<ExecutionResult> ExecuteCommand(ICommand command)
+        public async Task<ExecutionResult<string[]>> ExecuteCommand(ICommand command)
         {
             try
             {
@@ -26,20 +26,20 @@ namespace Memcached.Mimic.Commands
                 else if (command is DeleteCommand)
                     return await ExecuteDeleteCommand(command as DeleteCommand);
                 else
-                    return new ExecutionResult
+                    return new ExecutionResult<string[]>
                     {
                         IsSuccess = false,
-                        Results = new string[] { "Incoming Command didn't map to any existing command", },
+                        Result = new string[] { "Incoming Command didn't map to any existing command", },
                         ExecutionTimeInMS = -1000
 
                     };
             }
             catch (Exception exp)
             {
-                return new ExecutionResult
+                return new ExecutionResult<string[]>
                 {
                     IsSuccess = false,
-                    Results = new string[]
+                    Result = new string[]
                     {
                         "An error Occured while executing your command",
                         $"Exception Message : {exp.Message}",
@@ -50,24 +50,24 @@ namespace Memcached.Mimic.Commands
             }
         }
 
-        public async Task<ExecutionResult> ExecuteDeleteCommand(DeleteCommand command)
+        public async Task<ExecutionResult<string[]>> ExecuteDeleteCommand(DeleteCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             bool result = _fileHandler.DeleteKey(command.Key);
             stopWatch.Stop();
-            return new ExecutionResult
+            return new ExecutionResult<string[]>
             {
                 IsSuccess = true,
-                Results = new string[]
+                Result = new string[]
                 {
                     result ? "DELETED" : "NOT FOUND"
                 },
-                ExecutionTimeInMS=stopWatch.ElapsedMilliseconds
+                ExecutionTimeInMS = stopWatch.ElapsedMilliseconds
             };
         }
 
-        public async Task<ExecutionResult> ExecuteGetCommand(GetCommand command)
+        public async Task<ExecutionResult<string[]>> ExecuteGetCommand(GetCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -75,10 +75,10 @@ namespace Memcached.Mimic.Commands
             bool result = _fileHandler.GetKeyValue(command.Key, out keyValue);
             int length = result ? keyValue.Length : 0;
             stopWatch.Stop();
-            return new ExecutionResult
+            return new ExecutionResult<string[]>
             {
                 IsSuccess = true,
-                Results = new string[] {
+                Result = new string[] {
                     $"VALUE {command.Key} {length}",
                     keyValue,
                     "END"
@@ -88,16 +88,16 @@ namespace Memcached.Mimic.Commands
         }
 
 
-        public async Task<ExecutionResult> ExecuteSetCommand(SetCommand command)
+        public async Task<ExecutionResult<string[]>> ExecuteSetCommand(SetCommand command)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             bool result = _fileHandler.SetKey(command.Key, command.Value);
             stopWatch.Stop();
-            return new ExecutionResult
+            return new ExecutionResult<string[]>
             {
                 IsSuccess = true,
-                Results = new string[] { result ? "STORED" : "NOT STORED" },
+                Result = new string[] { result ? "STORED" : "NOT STORED" },
                 ExecutionTimeInMS = stopWatch.ElapsedMilliseconds
             };
         }

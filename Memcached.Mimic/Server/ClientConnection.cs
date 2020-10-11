@@ -15,9 +15,9 @@ namespace Memcached.Mimic.Server
     {
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
-        private Func<ICommand, Task<ExecutionResult>> _onCommandRequested;
+        private Func<ICommand, Task<ExecutionResult<string[]>>> _onCommandRequested;
 
-        public ClientConnection(TcpClient tcpClient, Func<ICommand, Task<ExecutionResult>> onCommandRequested)
+        public ClientConnection(TcpClient tcpClient, Func<ICommand, Task<ExecutionResult<string[]>>> onCommandRequested)
         {
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
@@ -91,13 +91,13 @@ namespace Memcached.Mimic.Server
             if (receivedCommand == null) Console.WriteLine("Received Command is null");
             Console.WriteLine($"[Client.Command]: {receivedCommand?.GetStringForEncoding()}");
             string serverResponse = $"Server has received your message: {clientContent}";
-            ExecutionResult executionResult = await this._onCommandRequested(receivedCommand);
+            ExecutionResult<string[]> executionResult = await this._onCommandRequested(receivedCommand);
             if(executionResult.ExecutionTimeInMS>=0)
             {
                 string output = $"[Server]: Executed in {executionResult.ExecutionTimeInMS/1000}s\r\n";
                 _networkStream.Write(Encoding.ASCII.GetBytes(output), 0, output.Length);
             }
-            foreach (var result in executionResult.Results)
+            foreach (var result in executionResult.Result)
             {
                 string output = $"[Server]: {result}\r\n";
                 _networkStream.Write(Encoding.ASCII.GetBytes(output), 0, output.Length);

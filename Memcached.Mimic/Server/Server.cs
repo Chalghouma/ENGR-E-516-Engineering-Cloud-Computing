@@ -15,14 +15,14 @@ namespace Memcached.Mimic.Server
         private Thread _listenerGeneratorThread;
         private int _portNumber;
         private string _ipAddress;
-        private ICommandExecuter _commandExecuter;
+        private ICommandExecuter<string[]> _commandExecuter;
         public IFileHandler FileHandler { get; private set; }
         public Server(string ipAddress, int portNumber)
         {
             _ipAddress = ipAddress;
             _portNumber = portNumber;
             FileHandler = new TextFileHandler();
-            _commandExecuter = new LocalFileCommandExecuter(FileHandler);
+            _commandExecuter = new LocalFileCommandExecuter<string[]>(FileHandler);
         }
         public void Start()
         {
@@ -60,6 +60,6 @@ namespace Memcached.Mimic.Server
     public class ClientConnectionSetup
     {
         public TcpClient TcpClient { get; set; }
-        public Func<ICommand, Task<ExecutionResult>> OnCommandRequested { get; set; }
+        public Func<ICommand, Task<ExecutionResult<string[]>>> OnCommandRequested { get; set; }
     }
 }
