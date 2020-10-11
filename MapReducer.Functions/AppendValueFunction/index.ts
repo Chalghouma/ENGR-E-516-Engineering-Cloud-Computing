@@ -15,7 +15,7 @@ const httpTrigger: AzureFunction = async function (
   if (storedItem == null) {
     storedItem = (
       await container.items.create<StoredItem>(
-        new StoredItem(req.body.key, req.body.value)
+        new StoredItem(req.body.key, [req.body.value])
       )
     ).resource;
   } else {
