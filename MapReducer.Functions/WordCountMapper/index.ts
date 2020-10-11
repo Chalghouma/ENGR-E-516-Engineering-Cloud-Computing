@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { forEach, keys, indexOf } from "lodash";
+import { appendValueByKey } from "../Services/CosmosDb/Mutations";
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
@@ -14,9 +15,21 @@ const httpTrigger: AzureFunction = async function (
     else dictionary[word]++;
   });
 
+  const dictionaryKeys = keys(dictionary);
+  forEach(dictionaryKeys, async (dictionaryKey) => {
+    let error = null;
+    do {
+      try {
+        await appendValueByKey(dictionaryKey, dictionary[dictionaryKey]);
+      } catch (err) {
+        error = err;
+      }
+    } while (error !== null);
+  });
+
   context.res = {
     // status: 200, /* Defaults to 200 */
-    body: dictionary,
+    body: dictionaryKeys,
   };
 };
 

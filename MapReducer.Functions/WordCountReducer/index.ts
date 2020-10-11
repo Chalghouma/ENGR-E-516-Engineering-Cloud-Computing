@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { reduce, map } from "lodash";
-const fs = require("fs");
+
 interface KeyValuePairInput {
   Key: string;
   Value: number;
