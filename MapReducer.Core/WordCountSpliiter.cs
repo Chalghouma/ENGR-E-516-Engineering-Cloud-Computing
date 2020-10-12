@@ -37,7 +37,7 @@ namespace MapReducer.Core
             {
                 string url = $"{azureFunctionsBaseUrl}/GetValueFunction";
                 var resultValue = await RestClient.PostJson<StoredItem<List<int>>>(new { key = reduceTaskoutput }, url);
-                Console.WriteLine(JsonConvert.SerializeObject(resultValue));
+                logger.Log($"{resultValue.key.Replace("_REDUCER_OUTPUT", "")} has Value = {JsonConvert.SerializeObject(resultValue.value[0])}");
             }
         }
 
