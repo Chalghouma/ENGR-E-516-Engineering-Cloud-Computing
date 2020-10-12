@@ -7,17 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapReducer.Core
+namespace MapReducer.Core.InvertedIndex
 {
-    public class WordCountSpliiter
+    public class InvertedIndexSplitter
     {
-        public static async Task ProcessDocument(string documentPath, string azureFunctionsBaseUrl)
+        public static async Task ProcessDocuments(string[] filePaths, string azureFunctionsBaseUrl)
         {
             ILogger logger = new ConsoleLogger();
             await DeleteCache(logger, azureFunctionsBaseUrl);
-            string[] lines = await File.ReadAllLinesAsync(documentPath);
-            var asyncMapTasks = lines.Select(line => Task.Run(() => new WordCountMapper($"{azureFunctionsBaseUrl}/WordCountMapper", logger).Map(line))
-            ).ToList();
+            List<string> fileContents = filePaths.Select(filePath => File.ReadAllText(filePath)).ToList();
+            var asyncMapTasks = new List<Task<List<string>>>();
+            for (int i = 0; i < fileContents.Count; i++)
+            {
+                var data = new DocumentData { index = i, content = fileContents[i] };
+                asyncMapTasks.Add(Task.Run(() => new InvertedIndexMapper($"{azureFunctionsBaseUrl}/InvertedIndexMapper", logger)
+                .Map(data)));
+            }
             var mapTasksOutputs = await Task.WhenAll(asyncMapTasks);
             List<string> keys = new List<string>();
             foreach (var mapTaskOutput in mapTasksOutputs)
@@ -30,17 +35,19 @@ namespace MapReducer.Core
             keys = keys.Distinct().ToList();
 
 
-            var asyncReduceTasks = keys.Select(key => Task.Run(() => new WordCountReducer($"{azureFunctionsBaseUrl}/WordCountReducer", logger).Reduce(key))
+            var asyncReduceTasks = keys.Select(key => Task.Run(() => new InvertedIndexReducer($"{azureFunctionsBaseUrl}/InvertedIndexReducer", logger).Reduce(key))
             ).ToList();
             var reduceTasksOutputs = await Task.WhenAll(asyncReduceTasks);
+            logger.Log("All Reducers have ended");
+            logger.Log("Starting to get end-results from KeyStore");
             foreach (var reduceTaskoutput in reduceTasksOutputs)
             {
                 string url = $"{azureFunctionsBaseUrl}/GetValueFunction";
-                var resultValue = await RestClient.PostJson<StoredItem<List<int>>>(new { key = reduceTaskoutput }, url);
-                Console.WriteLine(JsonConvert.SerializeObject(resultValue));
+                var resultValue = await RestClient.PostJson<StoredItem<List<List<WordOccurence>>>>(new { key = reduceTaskoutput }, url);
+                logger.Log($"{resultValue.key.Replace("_REDUCER_OUTPUT","")} has Value = {JsonConvert.SerializeObject(resultValue.value[0])}");
+                //Console.WriteLine(JsonConvert.SerializeObject(resultValue));
             }
         }
-
         private async static Task DeleteCache(ILogger logger, string baseUrl)
         {
             string endpoint = baseUrl + "/ClearContainerFunction";
