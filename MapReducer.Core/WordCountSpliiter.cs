@@ -11,9 +11,9 @@ namespace MapReducer.Core
 {
     public class WordCountSpliiter
     {
-        public static async Task ProcessDocument(string documentPath, string azureFunctionsBaseUrl)
+        public static async Task ProcessDocument(string documentPath, string azureFunctionsBaseUrl, ILogger logger)
         {
-            ILogger logger = new ConsoleLogger();
+            logger.Log($"Processing Document at {documentPath}");
             await DeleteCache(logger, azureFunctionsBaseUrl);
             string[] lines = await File.ReadAllLinesAsync(documentPath);
             var asyncMapTasks = lines.Select(line => Task.Run(() => new WordCountMapper($"{azureFunctionsBaseUrl}/WordCountMapper", logger).Map(line))

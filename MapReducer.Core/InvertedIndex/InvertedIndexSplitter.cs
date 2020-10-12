@@ -1,4 +1,5 @@
 ﻿using MapReducer.Core.Logger;
+using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace MapReducer.Core.InvertedIndex
 {
     public class InvertedIndexSplitter
     {
-        public static async Task ProcessDocuments(string[] filePaths, string azureFunctionsBaseUrl)
+        public static async Task ProcessDocuments(string[] filePaths, string azureFunctionsBaseUrl, ILogger logger)
         {
-            ILogger logger = new ConsoleLogger();
             await DeleteCache(logger, azureFunctionsBaseUrl);
+            logger.Log($"Processing {filePaths.Length} Documents");
             List<string> fileContents = filePaths.Select(filePath => File.ReadAllText(filePath)).ToList();
             var asyncMapTasks = new List<Task<List<string>>>();
             for (int i = 0; i < fileContents.Count; i++)

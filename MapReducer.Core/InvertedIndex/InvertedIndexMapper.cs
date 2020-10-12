@@ -25,10 +25,9 @@ namespace MapReducer.Core.InvertedIndex
             Exception exceptionCaught = null;
             do
             {
-                _logger.Log($"Mapping {inputDataSet}");
+                _logger.Log($"Mapping document of index {inputDataSet.index}");
                 try
                 {
-
                     return await RestClient.PostJson<List<string>>(new
                     {
                         index=inputDataSet.index,
