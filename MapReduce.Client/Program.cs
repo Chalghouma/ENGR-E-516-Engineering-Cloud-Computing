@@ -1,5 +1,6 @@
 ﻿using MapReducer.Core;
 using MapReducer.Core.InvertedIndex;
+using MapReducer.Core.Logger;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -28,7 +29,6 @@ namespace MapReduce.Client
             {
                 try
                 {
-
                     Console.WriteLine("Please, enter a valid path for the config file");
                     string configFilePath = Console.ReadLine();
                     config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
@@ -37,12 +37,17 @@ namespace MapReduce.Client
             }
             while (config == null);
 
+            string guid = Guid.NewGuid().ToString();
+            string logFileName = $"LogFile_{guid}.txt";
+            ILogger logger = new ConsoleFileLogger(logFileName);
+            logger.Log($"A log file has been created at {logFileName}");
+
             if (config.ReduceFunction == ReduceFunction.WORD_COUNT)
             {
-                WordCountSpliiter.ProcessDocument(config.WordCountFilePath, config.AzureFunctionsEndpoint).Wait();
+                WordCountSpliiter.ProcessDocument(config.WordCountFilePath, config.AzureFunctionsEndpoint,logger).Wait();
             }
             else
-                InvertedIndexSplitter.ProcessDocuments(config.InvertedIndexFilePaths, config.AzureFunctionsEndpoint).Wait();
+                InvertedIndexSplitter.ProcessDocuments(config.InvertedIndexFilePaths, config.AzureFunctionsEndpoint,logger).Wait();
         }
     }
 }
