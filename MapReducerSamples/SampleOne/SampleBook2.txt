@@ -1,0 +1,4 @@
+This is only the
+second part of SmallBook
+containing few keywords to test it fast
+and verify the count manually

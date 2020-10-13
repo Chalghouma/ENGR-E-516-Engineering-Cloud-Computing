@@ -1,0 +1,8 @@
+{
+  "ReduceFunction": 1,
+  "AzureFunctionsEndpoint": "http://localhost:7071/api",
+  "WordCountFilePath": "Sample.txt",
+  "InvertedIndexFilePaths": [
+    "C:\\Users\\cheri\\OneDrive\\Documents\\MSDS\\Engineering Cloud Computing\\Assignements\\Memcached.Mimic\\MapReducerSamples\\SampleZero\\SampleBook1.txt"
+  ]
+}

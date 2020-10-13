@@ -33,6 +33,8 @@ namespace MapReducer.Core
             var asyncReduceTasks = keys.Select(key => Task.Run(() => new WordCountReducer($"{azureFunctionsBaseUrl}/WordCountReducer", logger).Reduce(key))
             ).ToList();
             var reduceTasksOutputs = await Task.WhenAll(asyncReduceTasks);
+            logger.Log("All Reducers have ended");
+            logger.Log("Starting to get end-results from KeyStore");
             foreach (var reduceTaskoutput in reduceTasksOutputs)
             {
                 string url = $"{azureFunctionsBaseUrl}/GetValueFunction";

@@ -1,0 +1,9 @@
+{
+  "ReduceFunction": 1,
+  "AzureFunctionsEndpoint": "https://engr-func-app.azurewebsites.net/api",
+  "WordCountFilePath": "Sample.txt",
+  "InvertedIndexFilePaths": [
+    "C:\\Users\\cheri\\OneDrive\\Documents\\MSDS\\Engineering Cloud Computing\\Assignements\\Memcached.Mimic\\MapReducerSamples\\SampleOne_Remote\\SampleBook1.txt",
+    "C:\\Users\\cheri\\OneDrive\\Documents\\MSDS\\Engineering Cloud Computing\\Assignements\\Memcached.Mimic\\MapReducerSamples\\SampleOne_Remote\\SampleBook2.txt"
+  ]
+}

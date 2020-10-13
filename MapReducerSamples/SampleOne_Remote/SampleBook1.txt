@@ -1,0 +1,6 @@
+The word Something exists
+2 times in this
+document Something
+The word exists actually
+exists 3 times in the document
+The word document is present 4 times in this document

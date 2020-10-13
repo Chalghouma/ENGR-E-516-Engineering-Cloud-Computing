@@ -18,7 +18,7 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@azure/functions": "^1.0.2-beta2",
+    "@azure/functions": "^1.2.2",
     "typescript": "^3.3.3"
   }
 }

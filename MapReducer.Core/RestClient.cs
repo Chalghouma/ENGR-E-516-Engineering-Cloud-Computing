@@ -14,10 +14,12 @@ namespace MapReducer.Core
             var client = new HttpClient();
             var stringContent = new StringContent(JsonConvert.SerializeObject(objectToBeSent), Encoding.UTF8, "application/json");
             var requestResult = await client.PostAsync(url, stringContent);
+            var resultStringContent = await requestResult.Content.ReadAsStringAsync();
             if (!requestResult.IsSuccessStatusCode)
-                throw new Exception($"Unsuccessful PostJson request. StatusCode {requestResult.StatusCode}");
-            var serializedResponse = await requestResult.Content.ReadAsStringAsync();
-            var deserialized = JsonConvert.DeserializeObject<TOutput>(serializedResponse);
+            {
+                throw new Exception($"Unsuccessful PostJson request. StatusCode {requestResult.StatusCode}. Result:{resultStringContent}");
+            }
+            var deserialized = JsonConvert.DeserializeObject<TOutput>(resultStringContent);
             return deserialized;
         }
     }

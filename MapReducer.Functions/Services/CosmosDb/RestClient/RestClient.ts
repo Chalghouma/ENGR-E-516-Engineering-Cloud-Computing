@@ -12,7 +12,6 @@ export const postJson = async (data: any, url: string) => {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
-    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
     },

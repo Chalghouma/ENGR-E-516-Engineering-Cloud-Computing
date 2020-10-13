@@ -1,0 +1,36 @@
+[10/12/2020 7:08:13 PM] - A log file has been created at LogFile_0bdd50de-8f2e-4a72-9e41-da17c406a048.txt
+[10/12/2020 7:08:13 PM] - Attempting to ClearCache from http://localhost:7071/api/ClearContainerFunction
+[10/12/2020 7:08:22 PM] - Processing 1 Documents
+[10/12/2020 7:08:22 PM] - Mapping document of index 0
+[10/12/2020 7:08:25 PM] - Reducing inputKey:3's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:The's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:2's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:in's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:4's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:document's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:actually's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:26 PM] - Reducing inputKey:is's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:26 PM] - Reducing inputKey:the's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:26 PM] - Reducing inputKey:present's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:this's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:Something's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:word's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:times's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:25 PM] - Reducing inputKey:exists's values from http://localhost:7071/api/InvertedIndexReducer
+[10/12/2020 7:08:30 PM] - All Reducers have ended
+[10/12/2020 7:08:30 PM] - Starting to get end-results from KeyStore
+[10/12/2020 7:08:32 PM] - 2 has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:08:34 PM] - 3 has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:08:36 PM] - 4 has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:08:39 PM] - The has Value = [{"index":0,"occurence":3}]
+[10/12/2020 7:08:41 PM] - word has Value = [{"index":0,"occurence":3}]
+[10/12/2020 7:08:43 PM] - Something has Value = [{"index":0,"occurence":2}]
+[10/12/2020 7:08:45 PM] - exists has Value = [{"index":0,"occurence":3}]
+[10/12/2020 7:08:48 PM] - times has Value = [{"index":0,"occurence":3}]
+[10/12/2020 7:08:50 PM] - in has Value = [{"index":0,"occurence":3}]
+[10/12/2020 7:08:52 PM] - this has Value = [{"index":0,"occurence":2}]
+[10/12/2020 7:08:54 PM] - document has Value = [{"index":0,"occurence":4}]
+[10/12/2020 7:08:57 PM] - actually has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:08:59 PM] - the has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:09:01 PM] - is has Value = [{"index":0,"occurence":1}]
+[10/12/2020 7:09:03 PM] - present has Value = [{"index":0,"occurence":1}]
